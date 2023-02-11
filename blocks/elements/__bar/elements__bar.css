@@ -1,0 +1,14 @@
+.elements__bar{
+    margin: 0;
+    padding: 26px 0 25px 0;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0 0 10px 10px;
+}
+
+@media (max-width: 740px){
+    .elements__bar{
+      padding-top: 25.5px;
+    }
+}
