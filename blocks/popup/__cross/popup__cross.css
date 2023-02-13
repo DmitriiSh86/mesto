@@ -3,6 +3,8 @@
     padding: 0;
     width: 32px;
     height: 32px;
+    box-shadow: none;
+    border: none;
     background: url(../../../images/cross.svg);
     background-size: contain;
     position: absolute;
@@ -17,4 +19,10 @@
         width: 20px;
         height: 20px;
     }
-  }
+}
+
+.popup__cross:hover{
+    opacity: 0.6;
+    transition: 0.2s ease;
+    cursor: pointer;
+}

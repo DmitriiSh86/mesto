@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./pages/index.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
   </head>
   <body class="root">
-    <div class="popup">
-      <div class="popup__container">
-        <div class="popup__form">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <div class="popup__input">
-            <input
-              type="text"
-              placeholder="Имя"
-              class="popup__text popup__text_type_name"
-            />
-            <input
-              type="text"
-              placeholder="Фамилия"
-              class="popup__text popup__text_type_secondname"
-            />
-            <button class="popup__button">Сохранить</button>
-          </div>
-          <div class="popup__cross"></div>
-        </div>
-      </div>
-    </div>
     <header class="header">
-      <img src="./images/logo.svg" alt="Логотип" class="header__logo" />
+      <img src="./images/logo.svg" alt="Логотип" class="header__logo">
     </header>
     <main>
       <section class="profile">
@@ -37,19 +16,16 @@
           src="./images/kusto.jpg"
           alt="Жак-Ив Кусто"
           class="profile__avatar"
-        />
+        >
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <img
-            src="./images/edit.svg"
-            alt="Редактирование информации"
-            class="profile__edit-button"
-          />
           <p class="profile__subtitle">Исследователь океана</p>
+          <button class="profile__edit-button"></button>
         </div>
-        <div class="profile__add-button">
-          <img src="./images/plus.svg" alt="Плюс" class="profile__plus" />
-        </div>
+
+        <button class="profile__add-button">
+          <img src="./images/plus.svg" alt="Плюс" class="profile__plus">
+        </button>
       </section>
       <section class="elements" aria-label="photo">
         <div class="elements__element">
@@ -57,14 +33,10 @@
             src="./images/dombai1.png"
             class="elements__photo"
             alt="Домбай"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Домбай</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like elements__like_activ"></div>
           </div>
         </div>
         <div class="elements__element">
@@ -72,14 +44,10 @@
             src="./images/Elbrus1.png"
             class="elements__photo"
             alt="Эльбрус"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Эльбрус</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like"></div>
           </div>
         </div>
         <div class="elements__element">
@@ -87,14 +55,10 @@
             src="./images/Karachaevsk1.jpg"
             class="elements__photo"
             alt="Карачаевск"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Карачаевск</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like"></div>
           </div>
         </div>
         <div class="elements__element">
@@ -102,14 +66,10 @@
             src="./images/dombai2.png"
             class="elements__photo"
             alt="Домбай"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Домбай</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like"></div>
           </div>
         </div>
         <div class="elements__element">
@@ -117,14 +77,10 @@
             src="./images/Elbrus2.png"
             class="elements__photo"
             alt="Эльбрус"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Эльбрус</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like"></div>
           </div>
         </div>
         <div class="elements__element">
@@ -132,14 +88,10 @@
             src="./images/Karachaevsk2.jpg"
             class="elements__photo"
             alt="Карачаевск"
-          />
+          >
           <div class="elements__bar">
             <p class="elements__title">Карачаево-Черкесская Республика</p>
-            <img
-              src="./images/heart-enable.svg"
-              alt="Лайк"
-              class="elements__like"
-            />
+            <div class="elements__like"></div>
           </div>
         </div>
       </section>
@@ -147,5 +99,31 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
     </footer>
+
+    <div class="popup">
+      <div class="popup__container">
+        <div class="popup__form">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <div class="popup__input">
+            <input
+              id="nameF"
+              type="text"
+              placeholder="Имя"
+              class="popup__text"
+            >
+            <input
+              id="jobF"
+              type="text"
+              placeholder="Работа"
+              class="popup__text"
+            >
+            <button class="popup__button">Сохранить</button>
+          </div>
+          <button class="popup__cross"></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
