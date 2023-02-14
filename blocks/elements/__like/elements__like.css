@@ -2,12 +2,14 @@
     width: 22px;
     height: 19px;
     background: url(../../../images/heart-disable.svg);
-    margin: 4px 20px 0 0;
+    margin: 4px 0 0 0;
     padding: 0;
+    padding-left: 0;
+    border: none;
 }
 
 .elements__like:hover{
-    opacity: 0.6;
+    opacity: 0.5;
     transition: 0.2s ease;
     cursor: pointer;
 }

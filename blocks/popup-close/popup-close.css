@@ -1,4 +1,4 @@
-.popup__cross{
+.popup-close{
     margin: 0;
     padding: 0;
     width: 32px;
@@ -13,7 +13,7 @@
 }
 
 @media (max-width: 640px){
-    .popup__cross{
+    .popup-close{
         top: -36px;
         right: 0;
         width: 20px;
@@ -21,7 +21,7 @@
     }
 }
 
-.popup__cross:hover{
+.popup-close:hover{
     opacity: 0.6;
     transition: 0.2s ease;
     cursor: pointer;
