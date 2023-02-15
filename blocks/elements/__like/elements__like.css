@@ -6,6 +6,7 @@
     padding: 0;
     padding-left: 0;
     border: none;
+    flex: none;
 }
 
 .elements__like:hover{

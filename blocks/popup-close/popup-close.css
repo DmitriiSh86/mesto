@@ -5,7 +5,7 @@
     height: 32px;
     box-shadow: none;
     border: none;
-    background: url(../../../images/cross.svg);
+    background: url(../../images/cross.svg);
     background-size: contain;
     position: absolute;
     top: -40px;
