@@ -1,25 +1,25 @@
-let editButton = document.querySelector('.profile__edit-button');
-let addButton = document.querySelector('.profile__add-button');
-let popupEditor = document.querySelector('.popup_type_editor');
-let popupAddcard = document.querySelector('.popup_type_addcard');
-let popupPhoto = document.querySelector('.popup_type_photo');
-let closeButton = document.querySelector('.popup-close');
-let closeButtonAdd = document.querySelector('.popup-close_type_add');
-let closeButtonPhoto = document.querySelector('.popup-close_type_photo');
-let nameInput = document.querySelector('.popup__text_type_name');
-let jobInput = document.querySelector('.popup__text_type_job');
-let titleInfo = document.querySelector('.profile__title');
-let subtitleInfo = document.querySelector('.profile__subtitle');
-let formElement = document.querySelector('.popup__form');
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+const popupEditor = document.querySelector('.popup_type_editor');
+const popupAddcard = document.querySelector('.popup_type_addcard');
+const popupPhoto = document.querySelector('.popup_type_photo');
+const closeButton = document.querySelector('.popup-close');
+const closeButtonAdd = document.querySelector('.popup-close_type_add');
+const closeButtonPhoto = document.querySelector('.popup-close_type_photo');
+const nameInput = document.querySelector('.popup__text_type_name');
+const jobInput = document.querySelector('.popup__text_type_job');
+const titleInfo = document.querySelector('.profile__title');
+const subtitleInfo = document.querySelector('.profile__subtitle');
+const formElement = document.querySelector('.popup__form');
 
 
 const cardList = document.querySelector('.elements');
 const cardTemplate = document.querySelector('.card-template').content;
 
-let cardNameInput = document.querySelector('.popup__text_type_card-name');
-let cardLinkInput = document.querySelector('.popup__text_type_card-link');
+const cardNameInput = document.querySelector('.popup__text_type_card-name');
+const cardLinkInput = document.querySelector('.popup__text_type_card-link');
 
-let formAddElement = document.querySelector('[name=popupAddForm]');
+const formAddElement = document.querySelector('[name=popupAddForm]');
 
 const initialCards = [
     {
