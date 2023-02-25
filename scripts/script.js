@@ -11,12 +11,6 @@ const jobInput = document.querySelector('.popup__text_type_job');
 const titleInfo = document.querySelector('.profile__title');
 const subtitleInfo = document.querySelector('.profile__subtitle');
 const formProfile = document.querySelector('[name=popupEditorForm]');
-const cardData = [
-    {
-      name: '',
-      link: ''
-    }
-];
 const popupPhotoFullScreen = document.querySelector('.popup__photo');
 const popupTextFullScreen = document.querySelector('.popup__photo-text');
 
@@ -27,6 +21,14 @@ const cardNameInput = document.querySelector('.popup__text_type_card-name');
 const cardLinkInput = document.querySelector('.popup__text_type_card-link');
 
 const formAddElement = document.querySelector('[name=popupAddForm]');
+let cardElement;
+const cardData = [
+    {
+      name: '',
+      link: ''
+    }
+];
+
 
 function closePopup(popupItem) {
     popupItem.classList.remove('popup-open');
@@ -47,25 +49,26 @@ function handleCardFormSubmit (evt) {
     cardData.name = cardNameInput.value;
     cardData.link = cardLinkInput.value;
     if ((cardNameInput.value !== '') && (cardLinkInput.value !== '')) {
-        addCard(cardData);
+        createCard(cardData);
+        cardsContainer.prepend(cardElement);
         closePopup(popupAddCard);
         formAddElement.reset();
     }
 };
 
-function addCard(cardData){
-    const cardElement = cardTemplate.cloneNode(true);
+function createCard(cardData){
+    cardElement = cardTemplate.cloneNode(true);
     const cardElementPhoto = cardElement.querySelector('.elements__photo');
     cardElement.querySelector('.elements__title').textContent = cardData.name;
     cardElementPhoto.src = cardData.link;
     cardElementPhoto.alt = cardData.name;
-
     const buttonLike = cardElement.querySelector('.elements__like');
+    const cardToDelete = cardElement.querySelector('.elements__trash');
+    
     buttonLike.addEventListener('click', () => {
             buttonLike.classList.toggle('elements__like_type_activ');
     });
-
-    const cardToDelete = cardElement.querySelector('.elements__trash');
+    
     cardToDelete.addEventListener('click', (evt) => {
             removeCard(cardToDelete);
     });
@@ -77,8 +80,10 @@ function addCard(cardData){
             openPopup(popupPhoto);
     });
 
-    cardsContainer.prepend(cardElement);
+    return cardElement;
 }
+
+
 
 function removeCard(element){
     element.parentNode.remove();
@@ -112,5 +117,6 @@ formProfile.addEventListener('submit', handleProfileFormSubmit);
 formAddElement.addEventListener('submit', handleCardFormSubmit);
  
 initialCards.forEach(function (item) {
-    addCard(item);
+    createCard(item);
+    cardsContainer.prepend(cardElement);
 });
