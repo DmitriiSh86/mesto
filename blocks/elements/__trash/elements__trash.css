@@ -5,6 +5,7 @@
     background: url(../../../images/Trash.svg);
     top: 20px;
     right: 20px;
+    border: none;
 }
 
 .elements__trash:hover{
