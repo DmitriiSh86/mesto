@@ -19,33 +19,32 @@ const cardNameInput = document.querySelector('.popup__text_type_card-name');
 const cardLinkInput = document.querySelector('.popup__text_type_card-link');
 const formAddElement = document.querySelector('[name=popupAddForm]');
 const buttonListener = document.querySelector('.elements');
-
 let popupOpenCheck = false;
 
-function closePopup() {
+function closePopup(){
     const popupOpenNow = document.querySelector('.popup-open'); 
     popupOpenNow.classList.remove('popup-open');
     popupOpenCheck = false;
     resetErrors(popupOpenNow);
     const formElement = popupOpenNow.querySelector('.popup__form').name;
     if (formElement === "popupAddForm"){
-    formAddElement.reset();}
-}
+        formAddElement.reset();
+    }
+};
 
-function openPopup(popupItem) {
+function openPopup(popupItem){
     popupItem.classList.add('popup-open');
     popupOpenCheck = true;
-    
-}
+};
 
-function handleProfileFormSubmit (evt) {
+function handleProfileFormSubmit (evt){
     evt.preventDefault();
     titleInfo.textContent = nameInput.value;
     subtitleInfo.textContent = jobInput.value;
     closePopup();
 };
 
-function handleCardFormSubmit (evt) {
+function handleCardFormSubmit (evt){
     evt.preventDefault();
     const cardData = {
           name: '',
@@ -87,7 +86,6 @@ document.addEventListener('click', function (evt) {
     }
 });
 
-
 buttonListener.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('elements__like')) {
         evt.target.classList.toggle('elements__like_type_activ');
@@ -119,7 +117,7 @@ buttonClosePopupEdit.addEventListener('click', function () {
 });
 
 buttonClosePopupAdd.addEventListener('click', function () {
-    closePopup();    
+    closePopup();
 });
 
 buttonClosePopupPhoto.addEventListener('click', function () {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
-    <title>Mesto</title>    
+    <title>Mesto</title>
   </head>
   <body class="root">
     <header class="header">
@@ -20,7 +20,7 @@
               <img src="./images/edit.svg" alt="Редактирование" class="profile__edit">
             </button>
           </div>
-          <p class="profile__subtitle">Исследователь океана</p>          
+          <p class="profile__subtitle">Исследователь океана</p>
         </div>
         <button class="profile__add-button" type="button">
           <img src="./images/plus.svg" alt="Плюс" class="profile__plus">
@@ -46,8 +46,8 @@
               <input id="form-editor-about" type="text" placeholder="Работа" class="popup__text popup__text_type_job" required minlength="2" maxlength="40">
               <span class="popup__input-error form-editor-about-error" ></span>
             </label>
-            <button class="popup__button" type="submit">Сохранить</button>            
-          </div>          
+            <button class="popup__button" type="submit">Сохранить</button>
+          </div>
         </form>
         <button type="button" class="popup-close popup-close_type_profile"></button>
       </div>      
@@ -66,11 +66,11 @@
               <input id="form-card-link" type="url" placeholder="Ссылка на картинку" class="popup__text popup__text_type_card-link" required>
               <span class="popup__input-error form-card-link-error" ></span>
             </label>
-            <button disable class="popup__button" type="submit">Создать</button>            
-          </div>          
+            <button class="popup__button" type="submit">Создать</button>
+          </div>
         </form>
         <button type="button" class="popup-close popup-close_type_add "></button>
-      </div>      
+      </div>
     </div>
 
     <div class="popup popup_type_photo">
@@ -80,7 +80,7 @@
           <figcaption class="popup__photo-text"></figcaption>
         </figure>
         <button type="button" class="popup-close popup-close_type_photo"></button>
-      </div>      
+      </div>
     </div>
     
     <template class="card-template">
@@ -95,6 +95,6 @@
     </template>
     <script src="./scripts/cards.js"></script>
     <script src="./scripts/validate.js"></script>
-    <script src="./scripts/script.js"></script>   
+    <script src="./scripts/script.js"></script>
   </body>
 </html>

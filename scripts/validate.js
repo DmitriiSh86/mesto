@@ -25,46 +25,45 @@ const setEventListeners = (formElement) => {
   const buttonElement = formElement.querySelector('.popup__button');
   toggleButtonState(inputList, buttonElement);
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
+        inputElement.addEventListener('input', function () {
+        checkInputValidity(formElement, inputElement);
+        toggleButtonState(inputList, buttonElement);
+        });
   });
 };
 
 function enableValidation(){
     const formList = Array.from(document.querySelectorAll('.popup__form'));
     formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-    });
-    setEventListeners(formElement);
-});
-  
-}
-enableValidation();
+        formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+        });
+        setEventListeners(formElement);
+    });  
+};
 
-function hasInvalidInput(inputList){    
+function hasInvalidInput(inputList){
     return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
+        return !inputElement.validity.valid;
     }); 
-}
+};
 
-function resetErrors(inputData){    
+function resetErrors(inputData){
     const formElement = inputData.querySelector('.popup__form');
     const inputElements = inputData.querySelectorAll('.popup__text');
     inputElements.forEach((inputElement) => {
         hideInputError(formElement, inputElement);
     });
-}
-
+};
 
 function toggleButtonState(inputList, buttonElement){
     if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__button_type_inactiv');
-    buttonElement.disabled = true;
+        buttonElement.classList.add('popup__button_type_inactiv');
+        buttonElement.disabled = true;
     } else {
-    buttonElement.classList.remove('popup__button_type_inactiv');
-    buttonElement.disabled = false;
+        buttonElement.classList.remove('popup__button_type_inactiv');
+        buttonElement.disabled = false;
     } 
-}
+};
+
+enableValidation();
