@@ -1,0 +1,5 @@
+.popup__button_type_inactiv{
+    background-color: blue;
+    pointer-events: none;
+    user-select: none;
+}
