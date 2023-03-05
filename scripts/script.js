@@ -82,7 +82,7 @@ function removeHandlerListenersPopup(popupItem) {
 
 function setHandlerListenersPopup(popupItem) {
     document.addEventListener("keydown", handleCloseEsc);
-    popupItem.addEventListener("click", handleCloseClick);    
+    popupItem.addEventListener("click", handleCloseClick);
 };
 
 cardsContainerButtons.addEventListener('click', function (evt) {
@@ -112,9 +112,10 @@ buttonAddProfile.addEventListener('click', function () {
     resetErrors(popupAddCard, validationParametrs);
     formAddElement.reset();
     openPopup(popupAddCard);    
+    setDefaultSubmitButton (popupAddCard, validationParametrs);
 });
 
-buttonClosePopupEdit.addEventListener('click', function () {    
+buttonClosePopupEdit.addEventListener('click', function () {
     closePopup(popupEditor);
 });
 

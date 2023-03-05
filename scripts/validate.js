@@ -32,7 +32,14 @@ function resetErrors(inputData, parametrs){
     const inputElements = inputData.querySelectorAll(parametrs.inputSelector);
     inputElements.forEach((inputElement) => {
         hideInputError(formElement, inputElement, parametrs);
-    });
+    });    
+};
+
+function setDefaultSubmitButton (popupItem, parametrs){
+    const formElement = popupItem.querySelector(parametrs.formSelector);
+    const inputList = Array.from(popupItem.querySelectorAll(parametrs.inputSelector));
+    const buttonElement = popupItem.querySelector(parametrs.submitButtonSelector);
+    toggleButtonState(inputList, buttonElement, parametrs);
 };
 
 function toggleButtonState(inputList, buttonElement, parametrs){
