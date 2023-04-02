@@ -1,3 +1,6 @@
+import { removeCard, popupPhotoFullScreen, popupTextFullScreen, openPopup, popupPhoto } from './index.js'
+
+
 const initialCards = [
     {
       name: 'Архыз',
@@ -49,16 +52,6 @@ class Card {
       this._element.querySelector('.elements__photo').alt = this._name;
       return this._element;
     }
-   
-    _handleOpenPopup() {
-        popupImage.src = this._image;
-        popupElement.classList.add('popup_is-opened');
-    }
-        
-    _handleClosePopup() {
-        popupImage.src = '';
-        popupElement.classList.remove('popup_is-opened');
-    }
 
     _setEventListeners() {
         this._element.querySelector('.elements__trash').addEventListener('click', (evt) => {
@@ -77,10 +70,6 @@ class Card {
     }
   
   }
-  
-  initialCards.forEach((item) => {
-    const card = new Card(item, '.card-template');
-    const cardElement = card.generateCard();
-  
-    cardsContainer.prepend(cardElement);
-  });
+
+
+  export { Card, initialCards };
