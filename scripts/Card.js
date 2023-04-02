@@ -1,6 +1,3 @@
-import { removeCard, popupPhotoFullScreen, popupTextFullScreen, openPopup, popupPhoto } from './index.js'
-
-
 const initialCards = [
     {
       name: 'Архыз',
@@ -29,10 +26,11 @@ const initialCards = [
 ];
 
 class Card {
-    constructor(data, templateSelector) {
+    constructor(data, templateSelector, handleCardClick) {
       this._name = data.name;
       this._link = data.link;
       this._templateSelector = templateSelector;
+      this._handleCardClick = handleCardClick;
     }
   
     _getTemplate() {
@@ -43,13 +41,28 @@ class Card {
   
         return cardElement;
     }
+
+    _toggleLike(evt){ 
+        evt.target.classList.toggle('elements__like_type_activ');
+    }
+
+    _handleImageClick(){ 
+        this._handleCardClick(this._name, this._link);
+    }
+
+    _deleteCard(element){
+        element.remove();
+    }
   
     generateCard() {
         this._element = this._getTemplate();
+        this._cardTitle = this._element.querySelector('.elements__title');
+        this._cardImage = this._element.querySelector('.elements__photo');
+        this._cardTitle.textContent = this._name;
+        this._cardImage.src = this._link;
+        this._cardImage.alt = this._name;
+
         this._setEventListeners();
-        this._element.querySelector('.elements__title').textContent = this._name;
-        this._element.querySelector('.elements__photo').src = this._link;
-        this._element.querySelector('.elements__photo').alt = this._name;
 
         return this._element;
     }
@@ -57,16 +70,13 @@ class Card {
     _setEventListeners() {
         this._element.querySelector('.elements__trash').addEventListener('click', (evt) => {
             const elementDelete = evt.target.closest('.elements__element');
-            removeCard(elementDelete);
+            this._deleteCard(elementDelete);
         });
         this._element.querySelector('.elements__like').addEventListener('click', (evt) => {
-            evt.target.classList.toggle('elements__like_type_activ');
+            this._toggleLike(evt);
         });
-        this._element.querySelector('.elements__photo').addEventListener('click', (evt) => {
-            popupPhotoFullScreen.src = evt.target.src;
-            popupPhotoFullScreen.alt = evt.target.alt;
-            popupTextFullScreen.textContent = evt.target.alt;
-            openPopup(popupPhoto);
+        this._cardImage.addEventListener('click', () => {
+            this._handleImageClick()
         });
     }
   
