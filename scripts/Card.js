@@ -36,21 +36,22 @@ class Card {
     }
   
     _getTemplate() {
-      const cardElement = document
+        const cardElement = document
         .querySelector(this._templateSelector)
         .content
         .cloneNode(true);
   
-      return cardElement;
+        return cardElement;
     }
   
     generateCard() {
-      this._element = this._getTemplate();
-      this._setEventListeners();
-      this._element.querySelector('.elements__title').textContent = this._name;
-      this._element.querySelector('.elements__photo').src = this._link;
-      this._element.querySelector('.elements__photo').alt = this._name;
-      return this._element;
+        this._element = this._getTemplate();
+        this._setEventListeners();
+        this._element.querySelector('.elements__title').textContent = this._name;
+        this._element.querySelector('.elements__photo').src = this._link;
+        this._element.querySelector('.elements__photo').alt = this._name;
+
+        return this._element;
     }
 
     _setEventListeners() {
@@ -69,7 +70,6 @@ class Card {
         });
     }
   
-  }
+}
 
-
-  export { Card, initialCards };
+export { Card, initialCards };
