@@ -23,7 +23,7 @@ class Popup {
         if (evt.target.classList.contains('popup')) {            
             this.close();
         };
-    }
+    };
 
     setEventListeners() {
         
@@ -35,6 +35,17 @@ class Popup {
         });
         this._popupCloseButton.addEventListener('click', () => {
             this.close();
+            this.removeEventListeners();
+        });
+    };
+
+    removeEventListeners() {
+        
+        this._popup.removeEventListener('click', (evt) => {
+        });
+        document.removeEventListener('keydown', (evt) => {
+        });
+        this._popupCloseButton.removeEventListener('click', () => {
         });
     };
 };

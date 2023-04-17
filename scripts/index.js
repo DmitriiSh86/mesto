@@ -1,5 +1,5 @@
 import {Section} from './Section.js'
-import {initialCards, Card} from './Card.js'
+import {Card} from './Card.js'
 import {PopupWithImage} from './PopupWithImage.js'
 import {PopupWithForm} from './PopupWithForm.js'
 import {UserInfo} from './UserInfo.js'
@@ -14,13 +14,38 @@ const config = {
     errorClass: 'popup__input-error_type_activ'
 };
 
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+
 const formList = Array.from(document.querySelectorAll(config.formSelector));
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 const buttonAddProfile = document.querySelector('.profile__add-button');
 const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
-const titleInfo = document.querySelector('.profile__title');
-const subtitleInfo = document.querySelector('.profile__subtitle');
 const formAddElement = document.querySelector('[name=popupAddForm]');
 
 function handleCardClick(name, link) {
@@ -39,14 +64,12 @@ createCard.renderItems();
 
 
 function handleProfileFormSubmit (inputList){
-    titleInfo.textContent = inputList["form-editor-name"];
-    subtitleInfo.textContent = inputList["form-editor-about"];
+    user.setUserInfo(inputList["form-editor-name"], inputList["form-editor-about"]);
     popupEditor.close();
 };
 
 const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
 popupEditor.setEventListeners();
-
 
 function handleCardFormSubmit (inputList){
     const cardData = {
@@ -68,12 +91,6 @@ popupAddCard.setEventListeners();
 const popupPhoto = new PopupWithImage('.popup_type_photo');
 popupPhoto.setEventListeners();
 
-
-
-
-
-
-
 formList.forEach((formElement) => {
           
     const newForm = new FormValidator(config, formElement);
@@ -90,12 +107,15 @@ formList.forEach((formElement) => {
     });
     buttonEditProfile.addEventListener('click', function () {
         newForm.setInitialState();
+        setInfoForm(user.getUserInfo())        
         popupEditor.open();
-        nameInput.value = titleInfo.textContent;
-        jobInput.value = subtitleInfo.textContent;
     });
 });
 
+function setInfoForm({name, info}){
+    nameInput.value = name;
+    jobInput.value = info;
+}
 
 const user = new UserInfo('.profile__title', '.profile__subtitle');
 
