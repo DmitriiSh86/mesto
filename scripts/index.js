@@ -19,19 +19,12 @@ const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
 const titleInfo = document.querySelector('.profile__title');
 const subtitleInfo = document.querySelector('.profile__subtitle');
-const formProfile = document.querySelector('[name=popupEditorForm]');
-const popupPhotoFullScreen = document.querySelector('.popup__photo');
-const popupTextFullScreen = document.querySelector('.popup__photo-text');
-const cardsContainer = document.querySelector('.elements');
-const cardNameInput = document.querySelector('.popup__text_type_card-name');
-const cardLinkInput = document.querySelector('.popup__text_type_card-link');
 const formAddElement = document.querySelector('[name=popupAddForm]');
-const closeButtons = document.querySelectorAll('.popup-close');
 
 
-function handleProfileFormSubmit (){
-    titleInfo.textContent = nameInput.value;
-    subtitleInfo.textContent = jobInput.value;
+function handleProfileFormSubmit (inputList){
+    titleInfo.textContent = inputList["form-editor-name"];
+    subtitleInfo.textContent = inputList["form-editor-about"];
     popupEditor.close();
 };
 
@@ -42,25 +35,21 @@ buttonEditProfile.addEventListener('click', function () {
     jobInput.value = subtitleInfo.textContent;
 });
 
-buttonAddProfile.addEventListener('click', function () {
-    formAddElement.reset();
-    openPopup(popupAddCard);
-});
 
 
 
-formAddElement.addEventListener('submit', handleCardFormSubmit);
-
+function handleCardClick(name, link) {
+    popupPhoto.open(name, link);
+  }
   
-
-
 
 /////////////////////////////////   Card
 class Card {
-    constructor(data, templateSelector) {
+    constructor(data, templateSelector, handleCardClick) {
       this._name = data.name;
       this._link = data.link;
       this._templateSelector = templateSelector;
+      this._handleCardClick = handleCardClick;
     }
   
     _getTemplate() {
@@ -77,7 +66,7 @@ class Card {
     }
 
     _handleImageClick(){ 
-        popupPhoto.open(this._name, this._link);
+        this._handleCardClick(this._name, this._link);
     }
 
     _deleteCard(element){
@@ -178,43 +167,13 @@ class PopupWithImage extends Popup {
     }
   }
 
-/////////////////////////////// PopupWithForm
-
-class PopupWithForm extends Popup {
-    constructor(popupSelector, handleCardFormSubmit) {
-      super(popupSelector);
-      this._form = this._popup.querySelector('.popup__form');
-      this._inputList = Array.from(this._form.querySelectorAll('.popup__text'));
-      this._handleCardFormSubmit = handleCardFormSubmit;
-    }
-  
-    _getInputValues() {
-      const inputValues = {};
-      this._inputList.forEach((input) => {
-        inputValues[input.name] = input.value;
-      });
-      return inputValues;
-    };
-  
-    setEventListeners() {
-      super.setEventListeners();
-      this._popup.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-        this._handleCardFormSubmit(this._getInputValues());
-      });
-    };
-  
-    close() {
-      super.close();
-    }
-  }
 
 
 
   //////////////////////// UserInfo
 
   class UserInfo {
-    constructor({nameSelector, infoSelector}) {
+    constructor(nameSelector, infoSelector) {
       this._name = document.querySelector(nameSelector);
       this._info = document.querySelector(infoSelector);
     };
@@ -258,35 +217,68 @@ class Section {
 };
   /////////////////////
   
+ 
   
+/////////////////////////////// PopupWithForm
+
+class PopupWithForm extends Popup {
+    constructor(popupSelector, handleCardFormSubmit) {
+      super(popupSelector);
+      this._form = this._popup.querySelector('.popup__form');
+      this._inputList = Array.from(this._form.querySelectorAll('.popup__text'));
+      this._handleCardFormSubmit = handleCardFormSubmit;
+    }
+  
+    _getInputValues() {
+      const inputValues = {};
+      this._inputList.forEach((input) => {
+        inputValues[input.id] = input.value;
+      });
+
+
+      return inputValues;
+    };
+  
+    setEventListeners() {
+      super.setEventListeners();
+      this._popup.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        this._handleCardFormSubmit(this._getInputValues());
+      });
+    };
+  
+    close() {
+      super.close();
+    }
+  }
+ 
 
 
 const createCard = new Section ({
     items: initialCards,
     renderer: (item) => {
-        const card = new Card (item, '.card-template');
+        const card = new Card (item, '.card-template', handleCardClick);
         const cardElement = card.generateCard();
         createCard.addItem(cardElement);
     }}, '.elements');
 
 createCard.renderItems();
 
-function handleCardFormSubmit (evt){
-    evt.preventDefault();
+
+
+function handleCardFormSubmit (inputList){
     const cardData = {
           name: '',
           link: ''
     };
-    cardData.name = cardNameInput.value;
-    cardData.link = cardLinkInput.value;
+    cardData.name = inputList["form-card-name"];
+    cardData.link = inputList["form-card-link"];
     
     
     const card = new Card (cardData, '.card-template', handleCardClick);
-        const cardElement = card.generateCard();
-        createCard.addItem(cardElement);
-
-    closePopup(popupAddCard);
-    formAddElement.reset();
+    const cardElement = card.generateCard();
+    createCard.addItem(cardElement);
+    popupAddCard.close();
 };
 
 
@@ -301,6 +293,11 @@ formList.forEach((formElement) => {
         evt.preventDefault();
         newForm.setInitialState();
     });
+    buttonAddProfile.addEventListener('click', function () {
+        formAddElement.reset();
+        popupAddCard.open();
+        newForm.setInitialState();
+    });
 });
 
 
@@ -310,5 +307,8 @@ popupEditor.setEventListeners();
 const popupPhoto = new PopupWithImage('.popup_type_photo');
 popupPhoto.setEventListeners();
 
+const popupAddCard = new PopupWithForm('.popup_type_add-card', handleCardFormSubmit);
+popupAddCard.setEventListeners();
 
-const popupAddCard = document.querySelector('.popup_type_add-card');
+const user = new UserInfo('.profile__title', '.profile__subtitle');
+console.log('class user' + user.getUserInfo());
