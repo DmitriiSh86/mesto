@@ -8,15 +8,9 @@ class Section {
     addItem(element) {
         this._containerSelector.prepend(element);
     };
-    
-    renderItem() {
-        this._renderer(cardData);
-    };
 
     renderItems() {
-        this._items.forEach((item) => {
-            this._renderer(item);
-        });
+        this._items.forEach(this._renderer);
     };
 };
 
