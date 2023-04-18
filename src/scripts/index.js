@@ -1,3 +1,5 @@
+
+import '../pages/index.css';
 import {config, initialCards, formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput, formAddElement} from './constants.js'
 import {Section} from './Section.js'
 import {Card} from './Card.js'
