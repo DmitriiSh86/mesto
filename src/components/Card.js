@@ -24,8 +24,8 @@ class Card {
       this._handleCardClick(this._name, this._link);
   };
 
-  _deleteCard(element){
-      element.remove();
+  _deleteCard(){
+     this._element.remove();
   };
 
   generateCard() {
@@ -44,8 +44,7 @@ class Card {
 
   _setEventListeners() {
       this._element.querySelector('.elements__trash').addEventListener('click', (evt) => {
-          const elementDelete = evt.target.closest('.elements__element');
-          this._deleteCard(elementDelete);
+          this._deleteCard();
       });
       this._element.querySelector('.elements__like').addEventListener('click', (evt) => {
           this._toggleLike(evt);

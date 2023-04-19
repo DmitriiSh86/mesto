@@ -1,4 +1,4 @@
-import {config} from '../utils/constants.js'
+import {config} from './constants.js'
 
 const formList = Array.from(document.querySelectorAll(config.formSelector));
 const buttonEditProfile = document.querySelector('.profile__edit-button');

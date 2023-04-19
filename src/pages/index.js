@@ -1,6 +1,6 @@
 
 import '../pages/index.css';
-import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput} from '../components/elements.js'
+import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput} from '../utils/elements.js'
 import {config, initialCards} from '../utils/constants.js'
 import {Section} from '../components/Section.js'
 import {Card} from '../components/Card.js'
