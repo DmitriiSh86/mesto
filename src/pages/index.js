@@ -1,13 +1,16 @@
 
 import '../pages/index.css';
 import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput} from '../utils/elements.js'
-import {config, initialCards} from '../utils/constants.js'
+import {config} from '../utils/constants.js'
 import {Section} from '../components/Section.js'
 import {Card} from '../components/Card.js'
 import {PopupWithImage} from '../components/PopupWithImage.js'
 import {PopupWithForm} from '../components/PopupWithForm.js'
 import {UserInfo} from '../components/UserInfo.js'
 import { FormValidator } from '../components/FormValidator.js';
+
+let cardsContainer = null;
+let cardsArray = [];
 
 function setInfoForm({name, info}){
     nameInput.value = name;
@@ -24,13 +27,8 @@ function handleCardClick(name, link) {
     popupPhoto.open(name, link);
 };
 
-const cardsContainer = new Section ({
-    items: initialCards,
-    renderer: (item) => {
-        renderCard(item);
-    }}, '.elements');
 
-cardsContainer.renderItems();
+
 
 function handleProfileFormSubmit (inputList){
     user.setUserInfo(inputList["form-editor-name"], inputList["form-editor-about"]);
@@ -70,10 +68,78 @@ buttonAddProfile.addEventListener('click', function () {
 buttonEditProfile.addEventListener('click', function () {
     popupEditor.open(); 
     validators['popupEditorForm'].setInitialState();
-    setInfoForm(user.getUserInfo()) ;
+    setInfoForm(user.getUserInfo());
 });
 
-const user = new UserInfo('.profile__title', '.profile__subtitle');
+const user = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
+
+
+//=================================================
+
+class Api {
+    constructor({baseUrl,headers }) {
+        this._baseUrl = baseUrl;
+        this._headers = headers;
+    }
+  
+    getCards(){
+        return fetch(`${this._baseUrl}/cards`, {
+            method: 'GET',
+            headers: this._headers
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+    }
+
+     
+    getUserInfo() {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            headers: this._headers
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+    }
+}
+  
+  const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
+    headers: {
+      authorization: '95eefe20-b22f-484c-84d4-8000a8496756',
+      'Content-Type': 'application/json'
+    }
+  });
+
+
+  api.getUserInfo().then((data) => {
+    user.setUserInfo(data.name, data.about);
+    user.setAvatar(data.avatar);
+});
+
+
+
+
+api.getCards(cardsArray)
+    .then((data) => {
+    return data.map(({name, link}) => ({name, link}));
+    })
+    .then((cardArray) => { 
+        cardsContainer = new Section ({
+        items: cardArray,
+        renderer: (item) => {
+            renderCard(item);
+        }}, '.elements');
+    
+        cardsContainer.renderItems();
+    })
 
 
 
