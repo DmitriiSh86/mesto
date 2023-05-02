@@ -31,7 +31,12 @@ function handleCardClick(name, link) {
 
 
 function handleProfileFormSubmit (inputList){
-    user.setUserInfo(inputList["form-editor-name"], inputList["form-editor-about"]);
+    api.editUserProfile(inputList["form-editor-name"], inputList["form-editor-about"])
+    .then((result) => {
+      user.setUserInfo(result.name, result.about);
+    })
+
+
 };
 
 const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
@@ -108,9 +113,27 @@ class Api {
             return Promise.reject(`Ошибка: ${res.status}`);
         })
     }
+
+    editUserProfile(name, about) {
+        return fetch(`${this._baseUrl}/users/me`, {
+          method: 'PATCH',
+          headers: this._headers,
+          body: JSON.stringify({name: name, about: about}),
+        })
+        .then(res => {
+            if (res.ok) {
+            return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+      }
+    
+    
+
+
 }
   
-  const api = new Api({
+const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
     headers: {
       authorization: '95eefe20-b22f-484c-84d4-8000a8496756',
@@ -119,11 +142,10 @@ class Api {
   });
 
 
-  api.getUserInfo().then((data) => {
+api.getUserInfo().then((data) => {
     user.setUserInfo(data.name, data.about);
     user.setAvatar(data.avatar);
 });
-
 
 
 
