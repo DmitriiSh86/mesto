@@ -1,6 +1,7 @@
 
 import '../pages/index.css';
 import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput} from '../utils/elements.js'
+import {Api} from '../components/Api.js'
 import {config} from '../utils/constants.js'
 import {Section} from '../components/Section.js'
 import {Card} from '../components/Card.js'
@@ -11,14 +12,14 @@ import { FormValidator } from '../components/FormValidator.js';
 
 let cardsContainer = null;
 let cardsArray = [];
-
+let userId = '';
 function setInfoForm({name, info}){
     nameInput.value = name;
     jobInput.value = info;
 };
 
 function renderCard(item){
-    const card = new Card (item, '.card-template', handleCardClick);
+    const card = new Card (item, '.card-template', handleCardClick, userId);
         const cardElement = card.generateCard();
         cardsContainer.addItem(cardElement);
 };
@@ -87,72 +88,7 @@ const user = new UserInfo('.profile__title', '.profile__subtitle', '.profile__av
 
 //=================================================
 
-class Api {
-    constructor({baseUrl,headers }) {
-        this._baseUrl = baseUrl;
-        this._headers = headers;
-    }
-    
-    _checkOk(res) {
-        if (res.ok) return res.json();
-        return Promise.reject(res.status);
-      }
-    
-    getCards(){
-        return fetch(`${this._baseUrl}/cards`, {
-            method: 'GET',
-            headers: this._headers
-        })
-        .then((res) => this._checkOk(res));
-    }
 
-     
-    getUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            headers: this._headers
-        })
-        .then((res) => this._checkOk(res));
-    }
-
-    editUserProfile(name, about) {
-        return fetch(`${this._baseUrl}/users/me`, {
-          method: 'PATCH',
-          headers: this._headers,
-          body: JSON.stringify({
-            name: name,
-            about: about
-          }),
-        })
-
-        .then(res => {
-            if (res.ok) {
-            return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-    }
-    
-    addNewCard(name, link) {
-        return fetch(`${this._baseUrl}/cards`, {
-          method: 'POST',
-          headers: this._headers,
-          body: JSON.stringify({
-            name: name,
-            link: link
-          }),
-        })
-        
-        .then(res => {
-            if (res.ok) {
-            return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-    }
-
-
-}
   
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
@@ -166,13 +102,13 @@ const api = new Api({
 api.getUserInfo().then((data) => {
     user.setUserInfo(data.name, data.about);
     user.setAvatar(data.avatar);
+    userId = data._id;
 });
 
 
 
 api.getCards()    
     .then((data) => {
-        console.log(data)
         cardsContainer = new Section ({
         items: data,
         renderer: (item) => {
@@ -182,5 +118,5 @@ api.getCards()
         cardsContainer.renderItems();
     })
 
-
+    export {api, Api};
 
