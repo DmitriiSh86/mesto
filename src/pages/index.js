@@ -42,13 +42,19 @@ function handleProfileFormSubmit (inputList){
 const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
 popupEditor.setEventListeners();
 
+
+
+
+
 function handleCardFormSubmit (inputList){
     const cardData = {
         name: inputList["form-card-name"],
         link: inputList["form-card-link"]
-    };   
+    };
+    api.addNewCard(cardData.name, cardData.link).then((result) => {
+        renderCard(result);
+    })
     
-    renderCard(cardData);
 };
 
 const popupAddCard = new PopupWithForm('.popup_type_add-card', handleCardFormSubmit);
@@ -86,18 +92,18 @@ class Api {
         this._baseUrl = baseUrl;
         this._headers = headers;
     }
-  
+    
+    _checkOk(res) {
+        if (res.ok) return res.json();
+        return Promise.reject(res.status);
+      }
+    
     getCards(){
         return fetch(`${this._baseUrl}/cards`, {
             method: 'GET',
             headers: this._headers
         })
-        .then(res => {
-            if (res.ok) {
-            return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then((res) => this._checkOk(res));
     }
 
      
@@ -106,6 +112,19 @@ class Api {
             method: 'GET',
             headers: this._headers
         })
+        .then((res) => this._checkOk(res));
+    }
+
+    editUserProfile(name, about) {
+        return fetch(`${this._baseUrl}/users/me`, {
+          method: 'PATCH',
+          headers: this._headers,
+          body: JSON.stringify({
+            name: name,
+            about: about
+          }),
+        })
+
         .then(res => {
             if (res.ok) {
             return res.json();
@@ -113,22 +132,24 @@ class Api {
             return Promise.reject(`Ошибка: ${res.status}`);
         })
     }
-
-    editUserProfile(name, about) {
-        return fetch(`${this._baseUrl}/users/me`, {
-          method: 'PATCH',
+    
+    addNewCard(name, link) {
+        return fetch(`${this._baseUrl}/cards`, {
+          method: 'POST',
           headers: this._headers,
-          body: JSON.stringify({name: name, about: about}),
+          body: JSON.stringify({
+            name: name,
+            link: link
+          }),
         })
+        
         .then(res => {
             if (res.ok) {
             return res.json();
             }
             return Promise.reject(`Ошибка: ${res.status}`);
         })
-      }
-    
-    
+    }
 
 
 }
@@ -149,13 +170,11 @@ api.getUserInfo().then((data) => {
 
 
 
-api.getCards(cardsArray)
+api.getCards()    
     .then((data) => {
-    return data.map(({name, link}) => ({name, link}));
-    })
-    .then((cardArray) => { 
+        console.log(data)
         cardsContainer = new Section ({
-        items: cardArray,
+        items: data,
         renderer: (item) => {
             renderCard(item);
         }}, '.elements');
