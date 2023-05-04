@@ -5,25 +5,24 @@ class PopupWithConfirmation extends Popup {
       this._form = this._popup.querySelector('.popup__form');
       this._handleSubmit = handleSubmit;
     };
+
+    setData(cardId, cardElement){
+      this._cardId = cardId;
+      this._cardElement = cardElement;
+    }
   
     setEventListeners() {
       super.setEventListeners();
       this._popup.addEventListener('submit', (evt) => {
         evt.preventDefault();
-        this._handleSubmit(evt.submitter, this._cardId, this._ardElement);
+        this._handleSubmit(evt.submitter, this._cardId, this._cardElement);
       });
     };
   
     close() {
       super.close();
       this._form.reset();
-    };
-
-    open(cardId, cardElement) {
-      this._cardId = cardId;
-      this._ardElement = cardElement;
-      super.open();    
-    }
+    };   
   };
 
   export {PopupWithConfirmation}

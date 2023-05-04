@@ -72,7 +72,8 @@ function handleCardFormSubmit (inputList, submitButton){
 };
 
 function handleCardDelete(cardId, cardElement) {
-    popupDelete.open(cardId, cardElement);    
+    popupDelete.open();
+    popupDelete.setData(cardId, cardElement)
 };
 
 function handleDeleteFormSubmit (submitButton, idCard, cardContainer){
