@@ -10,6 +10,7 @@
     line-height: 22px;
     cursor: pointer;
     border: none;
+    align-self: center;
 }
 
 @media (max-width: 640px){

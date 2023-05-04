@@ -1,6 +1,6 @@
 import {api} from '../pages/index.js'
 class Card {
-  constructor(data, templateSelector, handleCardClick, userId) {
+  constructor(data, templateSelector, handleCardClick, userId, handleCardDelete) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -10,12 +10,14 @@ class Card {
     this._handleCardClick = handleCardClick;
     this._likeStatus = false;
     this._userId = userId;
+    this._handleCardDelete = handleCardDelete;
 
     this._element = this._getTemplate();
     this._cardTitle = this._element.querySelector('.elements__title');
     this._cardImage = this._element.querySelector('.elements__photo');
     this._cardLikes = this._element.querySelector('.elements__like-number');
     this._heart = this._element.querySelector('.elements__like');
+    this._buttonDelete = this._element.querySelector('.elements__trash');
   };
 
   _getTemplate() {
@@ -73,7 +75,10 @@ class Card {
             this._setLike();
         }
       }
-    
+      if (this._data.owner._id !== this._userId){
+        this._buttonDelete.parentNode.removeChild(this._buttonDelete);
+      }
+      
 
       this._setEventListeners();
 
@@ -81,11 +86,12 @@ class Card {
   };
 
   _setEventListeners() {
-      this._element.querySelector('.elements__trash').addEventListener('click', (evt) => {
-          this._deleteCard();
+    this._buttonDelete.addEventListener('click', (evt) => {
+        this._handleCardDelete();
+          //this._deleteCard();
       });
-      this._element.querySelector('.elements__like').addEventListener('click', (evt) => {
-          this._toggleLike(evt);
+      this._heart.addEventListener('click', (evt) => {
+          this._toggleLike();
       });
       this._cardImage.addEventListener('click', () => {
           this._handleImageClick()

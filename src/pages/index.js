@@ -1,6 +1,6 @@
 
 import '../pages/index.css';
-import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput} from '../utils/elements.js'
+import {formList, buttonEditProfile, buttonAddProfile, nameInput, jobInput, buttonEditAvatar} from '../utils/elements.js'
 import {Api} from '../components/Api.js'
 import {config} from '../utils/constants.js'
 import {Section} from '../components/Section.js'
@@ -11,7 +11,6 @@ import {UserInfo} from '../components/UserInfo.js'
 import { FormValidator } from '../components/FormValidator.js';
 
 let cardsContainer = null;
-let cardsArray = [];
 let userId = '';
 function setInfoForm({name, info}){
     nameInput.value = name;
@@ -19,7 +18,7 @@ function setInfoForm({name, info}){
 };
 
 function renderCard(item){
-    const card = new Card (item, '.card-template', handleCardClick, userId);
+    const card = new Card (item, '.card-template', handleCardClick, userId, handleCardDelete);
         const cardElement = card.generateCard();
         cardsContainer.addItem(cardElement);
 };
@@ -28,22 +27,32 @@ function handleCardClick(name, link) {
     popupPhoto.open(name, link);
 };
 
-
-
+function handleCardDelete() {
+    popupDelete.open();
+};
 
 function handleProfileFormSubmit (inputList){
     api.editUserProfile(inputList["form-editor-name"], inputList["form-editor-about"])
     .then((result) => {
       user.setUserInfo(result.name, result.about);
     })
+};
 
-
+function handleEditAvatar (link){
+    api.changeAvatar(link["form-new-avatar"])
+    .then((result) => {
+      user.setAvatar(result.avatar)
+    })
 };
 
 const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
 popupEditor.setEventListeners();
 
+const popupDelete = new PopupWithForm('.popup_type_delete');
+popupDelete.setEventListeners();
 
+const popupNewAvatar = new PopupWithForm('.popup_type_edit-avatar', handleEditAvatar);
+popupNewAvatar.setEventListeners();
 
 
 
@@ -81,6 +90,10 @@ buttonEditProfile.addEventListener('click', function () {
     popupEditor.open(); 
     validators['popupEditorForm'].setInitialState();
     setInfoForm(user.getUserInfo());
+});
+
+buttonEditAvatar.addEventListener('click', function () {
+    popupNewAvatar.open();
 });
 
 const user = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
