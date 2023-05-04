@@ -5,11 +5,9 @@ class Popup {
         this._handleEscClose = this._handleEscClose.bind(this);
     };
     
-    open(id, card) {
+    open() {
         this._popup.classList.add('popup-open');
         document.addEventListener('keydown', this._handleEscClose);
-        this._idCard = id;
-        this._card = card;
     };
     
     close() {

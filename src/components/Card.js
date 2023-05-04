@@ -46,13 +46,21 @@ class Card {
 
   _toggleLike(){
         if (this._likeStatus === false){
-            this._setLike();         
+                   
             api.likeCard(this._cardId)
-            .then((result) => this._setLikeNum(result.likes.length));
+            .then((result) => {
+              this._setLike();  
+              this._setLikeNum(result.likes.length)
+            })
+            .catch(err => console.log(`Ошибка.....: ${err}`))
         } else {
-            this._setDislike();                       
+            
             api.dislikeCard(this._cardId)
-            .then((result) => this._setLikeNum(result.likes.length));
+            .then((result) => {
+              this._setDislike();
+              this._setLikeNum(result.likes.length)
+            })
+            .catch(err => console.log(`Ошибка.....: ${err}`))
         }      
   };
 
@@ -60,7 +68,8 @@ class Card {
       this._handleCardClick(this._name, this._link);
   };
 
-  generateCard() {      
+  generateCard() {
+      this._element.id = this._cardId;
       this._cardTitle.textContent = this._name;
       this._cardImage.src = this._link;
       this._cardImage.alt = this._name;      
