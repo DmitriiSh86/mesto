@@ -16,8 +16,7 @@ class Api {
         })
         .then((res) => this._checkOk(res));
     }
-
-     
+         
     getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'GET',
@@ -82,6 +81,14 @@ class Api {
       .then((res) => this._checkOk(res));
     }
 
+    deleteCard(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: this._headers
+      })
+       
+    .then((res) => this._checkOk(res));
+  }
 }
 
 export {Api};

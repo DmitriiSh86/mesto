@@ -7,8 +7,10 @@ import {Section} from '../components/Section.js'
 import {Card} from '../components/Card.js'
 import {PopupWithImage} from '../components/PopupWithImage.js'
 import {PopupWithForm} from '../components/PopupWithForm.js'
+import {PopupWithConfirmation} from '../components/popupWithConfirmation.js'
+
 import {UserInfo} from '../components/UserInfo.js'
-import { FormValidator } from '../components/FormValidator.js';
+import {FormValidator} from '../components/FormValidator.js';
 
 let cardsContainer = null;
 let userId = '';
@@ -27,36 +29,43 @@ function handleCardClick(name, link) {
     popupPhoto.open(name, link);
 };
 
-function handleCardDelete() {
-    popupDelete.open();
+function handleCardDelete(id, card) {
+    popupDelete.open(id, card);    
 };
 
-function handleProfileFormSubmit (inputList){
+function handleDeleteFormSubmit (submitButton, idCard, cardContainer){
+    submitButton.textContent = 'Удаление...';
+    api.deleteCard(idCard)
+    .finally(() => {
+        submitButton.textContent = 'Да';
+        cardContainer.remove();
+    });
+};
+
+function handleProfileFormSubmit (inputList, submitButton){
+    submitButton.textContent = 'Сохранение...';
     api.editUserProfile(inputList["form-editor-name"], inputList["form-editor-about"])
     .then((result) => {
       user.setUserInfo(result.name, result.about);
     })
+    .finally(() => {
+        submitButton.textContent = 'Сохранить';
+    });
 };
 
-function handleEditAvatar (link){
+function handleEditAvatar (link, submitButton){
+    submitButton.textContent = 'Сохранение...';
     api.changeAvatar(link["form-new-avatar"])
     .then((result) => {
       user.setAvatar(result.avatar)
     })
+    .finally(() => {
+        submitButton.textContent = 'Сохранить';
+    });
 };
 
-const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
-popupEditor.setEventListeners();
-
-const popupDelete = new PopupWithForm('.popup_type_delete');
-popupDelete.setEventListeners();
-
-const popupNewAvatar = new PopupWithForm('.popup_type_edit-avatar', handleEditAvatar);
-popupNewAvatar.setEventListeners();
-
-
-
-function handleCardFormSubmit (inputList){
+function handleCardFormSubmit (inputList, submitButton){
+    submitButton.textContent = 'Сохранение...';
     const cardData = {
         name: inputList["form-card-name"],
         link: inputList["form-card-link"]
@@ -64,8 +73,19 @@ function handleCardFormSubmit (inputList){
     api.addNewCard(cardData.name, cardData.link).then((result) => {
         renderCard(result);
     })
-    
+    .finally(() => {
+        submitButton.textContent = 'Сохранить';
+    });    
 };
+
+const popupEditor = new PopupWithForm('.popup_type_editor', handleProfileFormSubmit);
+popupEditor.setEventListeners();
+
+const popupDelete = new PopupWithConfirmation('.popup_type_delete', handleDeleteFormSubmit);
+popupDelete.setEventListeners();
+
+const popupNewAvatar = new PopupWithForm('.popup_type_edit-avatar', handleEditAvatar);
+popupNewAvatar.setEventListeners();
 
 const popupAddCard = new PopupWithForm('.popup_type_add-card', handleCardFormSubmit);
 popupAddCard.setEventListeners();
@@ -97,11 +117,6 @@ buttonEditAvatar.addEventListener('click', function () {
 });
 
 const user = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
-
-
-//=================================================
-
-
   
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
@@ -109,16 +124,13 @@ const api = new Api({
       authorization: '95eefe20-b22f-484c-84d4-8000a8496756',
       'Content-Type': 'application/json'
     }
-  });
-
+});
 
 api.getUserInfo().then((data) => {
     user.setUserInfo(data.name, data.about);
     user.setAvatar(data.avatar);
     userId = data._id;
 });
-
-
 
 api.getCards()    
     .then((data) => {
@@ -131,5 +143,5 @@ api.getCards()
         cardsContainer.renderItems();
     })
 
-    export {api, Api};
+export {api, Api};
 

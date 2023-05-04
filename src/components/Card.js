@@ -53,16 +53,11 @@ class Card {
             this._setDislike();                       
             api.dislikeCard(this._cardId)
             .then((result) => this._setLikeNum(result.likes.length));
-        }
-      
+        }      
   };
 
   _handleImageClick(){ 
       this._handleCardClick(this._name, this._link);
-  };
-
-  _deleteCard(){
-     this._element.remove();
   };
 
   generateCard() {      
@@ -71,14 +66,13 @@ class Card {
       this._cardImage.alt = this._name;      
       this._setLikeNum(this._likes.length);
       for (let i=0; i<this._data.likes.length; i++){
-        if ((this._data.likes[i]._id) === this._userId){            
+        if ((this._data.likes[i]._id) === this._userId){
             this._setLike();
         }
       }
       if (this._data.owner._id !== this._userId){
         this._buttonDelete.parentNode.removeChild(this._buttonDelete);
       }
-      
 
       this._setEventListeners();
 
@@ -87,8 +81,7 @@ class Card {
 
   _setEventListeners() {
     this._buttonDelete.addEventListener('click', (evt) => {
-        this._handleCardDelete();
-          //this._deleteCard();
+        this._handleCardDelete(this._cardId, this._element);
       });
       this._heart.addEventListener('click', (evt) => {
           this._toggleLike();
@@ -97,7 +90,6 @@ class Card {
           this._handleImageClick()
       });
   };
-
 };
 
 export {Card};
